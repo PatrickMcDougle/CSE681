@@ -1,0 +1,9 @@
+D:\GitHub\CIS681\Project1\SearchDom\obj\Debug\SearchDom.csproj.AssemblyReference.cache
+D:\GitHub\CIS681\Project1\SearchDom\obj\Debug\SearchDom.csproj.CoreCompileInputs.cache
+D:\GitHub\CIS681\Project1\SearchDom\bin\Debug\SearchDom.dll
+D:\GitHub\CIS681\Project1\SearchDom\bin\Debug\SearchDom.pdb
+D:\GitHub\CIS681\Project1\SearchDom\bin\Debug\DocumentObjectModel.dll
+D:\GitHub\CIS681\Project1\SearchDom\bin\Debug\DocumentObjectModel.pdb
+D:\GitHub\CIS681\Project1\SearchDom\obj\Debug\SearchDom.csproj.CopyComplete
+D:\GitHub\CIS681\Project1\SearchDom\obj\Debug\SearchDom.dll
+D:\GitHub\CIS681\Project1\SearchDom\obj\Debug\SearchDom.pdb

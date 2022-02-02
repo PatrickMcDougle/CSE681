@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b254f63d-5667-427f-a11d-cce4804c5f66": {
+      "ProjectGuid": "b254f63d-5667-427f-a11d-cce4804c5f66",
+      "DisplayName": "CSE681.GUI.Project1",
+      "ColorIndex": 0
+    },
+    "eb80c423-0df7-4d0a-9eb3-4e63722f8f92": {
+      "ProjectGuid": "eb80c423-0df7-4d0a-9eb3-4e63722f8f92",
+      "DisplayName": "CSE681.JSON.DOMs",
+      "ColorIndex": 1
+    },
+    "d1b8e373-12a9-49df-a892-5f69ccf072b3": {
+      "ProjectGuid": "d1b8e373-12a9-49df-a892-5f69ccf072b3",
+      "DisplayName": "CSE681.JSON.PrettyPrint",
+      "ColorIndex": 2
+    },
+    "d5d7c60a-0984-49e0-ae4c-9eab7d51f00a": {
+      "ProjectGuid": "d5d7c60a-0984-49e0-ae4c-9eab7d51f00a",
+      "DisplayName": "CSE681.JSON.Parse",
+      "ColorIndex": 3
+    },
+    "2510a658-0f91-4e17-a4cb-868d7e17a494": {
+      "ProjectGuid": "2510a658-0f91-4e17-a4cb-868d7e17a494",
+      "DisplayName": "CSE681.JSON.Search",
+      "ColorIndex": 4
+    }
+  },
+  "NextColorIndex": 5
+}

@@ -1,0 +1,2 @@
+D:\GitHub\CIS681\ConsoleApp1\ConsoleApp2\obj\Debug\ConsoleApp2.csproj.SuggestedBindingRedirects.cache
+D:\GitHub\CIS681\ConsoleApp1\ConsoleApp2\obj\Debug\ConsoleApp2.csproj.CoreCompileInputs.cache

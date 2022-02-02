@@ -1,0 +1,11 @@
+D:\GitHub\CIS681\Project1\DocumentObjectModel\bin\Debug\CSE681.JSON.DOMs.dll
+D:\GitHub\CIS681\Project1\DocumentObjectModel\bin\Debug\CSE681.JSON.DOMs.pdb
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.csproj.CoreCompileInputs.cache
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.dll
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.pdb
+D:\GitHub\CSE681\Project1\DocumentObjectModel\bin\Debug\CSE681.JSON.DOMs.dll
+D:\GitHub\CSE681\Project1\DocumentObjectModel\bin\Debug\CSE681.JSON.DOMs.pdb
+D:\GitHub\CSE681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.csproj.AssemblyReference.cache
+D:\GitHub\CSE681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.csproj.CoreCompileInputs.cache
+D:\GitHub\CSE681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.dll
+D:\GitHub\CSE681\Project1\DocumentObjectModel\obj\Debug\CSE681.JSON.DOMs.pdb

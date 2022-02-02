@@ -1,0 +1,9 @@
+D:\GitHub\CIS681\Project1\PrettyPrint\bin\Debug\PrettyPrint.dll
+D:\GitHub\CIS681\Project1\PrettyPrint\bin\Debug\PrettyPrint.pdb
+D:\GitHub\CIS681\Project1\PrettyPrint\bin\Debug\DocumentObjectModel.dll
+D:\GitHub\CIS681\Project1\PrettyPrint\bin\Debug\DocumentObjectModel.pdb
+D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\PrettyPrint.csproj.AssemblyReference.cache
+D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\PrettyPrint.csproj.CoreCompileInputs.cache
+D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\PrettyPrint.csproj.CopyComplete
+D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\PrettyPrint.dll
+D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\PrettyPrint.pdb

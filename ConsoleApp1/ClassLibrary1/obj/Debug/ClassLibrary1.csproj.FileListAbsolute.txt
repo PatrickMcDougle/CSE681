@@ -1,0 +1,5 @@
+D:\GitHub\CIS681\ConsoleApp1\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+D:\GitHub\CIS681\ConsoleApp1\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+D:\GitHub\CIS681\ConsoleApp1\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CoreCompileInputs.cache
+D:\GitHub\CIS681\ConsoleApp1\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+D:\GitHub\CIS681\ConsoleApp1\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

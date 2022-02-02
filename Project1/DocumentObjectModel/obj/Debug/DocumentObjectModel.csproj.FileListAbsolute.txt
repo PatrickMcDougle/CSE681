@@ -1,0 +1,6 @@
+D:\GitHub\CIS681\Project1\DocumentObjectModel\bin\Debug\DocumentObjectModel.dll
+D:\GitHub\CIS681\Project1\DocumentObjectModel\bin\Debug\DocumentObjectModel.pdb
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\DocumentObjectModel.csproj.CoreCompileInputs.cache
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\DocumentObjectModel.dll
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\DocumentObjectModel.pdb
+D:\GitHub\CIS681\Project1\DocumentObjectModel\obj\Debug\DocumentObjectModel.csproj.AssemblyReference.cache
