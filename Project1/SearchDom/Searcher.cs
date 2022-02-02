@@ -10,6 +10,7 @@ namespace CSE681.JSON.Search
 {
     public class Searcher
     {
+        private Value _alreadyFound;
         private Value _domTree;
 
         public Searcher()
@@ -17,15 +18,33 @@ namespace CSE681.JSON.Search
 
         public Value LookingFor(string key)
         {
+            Value found = null;
+
             if (_domTree is Object obj)
             {
-                return Search(obj, key);
+                found = Search(obj, key.ToLower());
+                if (found == null)
+                {
+                    // search one more time.
+                    found = Search(obj, key.ToLower());
+                }
             }
-            if (_domTree is Array array)
+            else if (_domTree is Array array)
             {
-                return Search(array, key);
+                found = Search(array, key.ToLower());
+                if (found == null)
+                {
+                    // search one more time.
+                    found = Search(array, key.ToLower());
+                }
             }
-            return null;
+            return found;
+        }
+
+        public Searcher SetAlreadyFound(Value foundValue)
+        {
+            _alreadyFound = foundValue;
+            return this;
         }
 
         public Searcher SetDom(Value value)
@@ -41,18 +60,39 @@ namespace CSE681.JSON.Search
                 if (jsonValue is Object obj)
                 {
                     Value jv = Search(obj, key);
-                    if (jv != null)
+
+                    if (_alreadyFound != null)
                     {
-                        return jv;
+                        if (jv == _alreadyFound)
+                        {
+                            _alreadyFound = null;
+                        }
+                    }
+                    else
+                    {
+                        if (jv != null)
+                        {
+                            return jv;
+                        }
                     }
                 }
                 if (jsonValue is Array arr)
                 {
                     Value jv = Search(arr, key);
 
-                    if (jv != null)
+                    if (_alreadyFound != null)
                     {
-                        return jv;
+                        if (jv == _alreadyFound)
+                        {
+                            _alreadyFound = null;
+                        }
+                    }
+                    else
+                    {
+                        if (jv != null)
+                        {
+                            return jv;
+                        }
                     }
                 }
             }
@@ -61,22 +101,38 @@ namespace CSE681.JSON.Search
 
         private Value Search(Object value, string key)
         {
-            Members foundKeyValueSet = value.Properties.FirstOrDefault(x => x.Key.Equals(key));
-            if (foundKeyValueSet != null)
+            Members foundMembers = value.Properties.FirstOrDefault(x => x.Key.ToLower().Equals(key));
+            if (foundMembers != null)
             {
-                return foundKeyValueSet.Member;
+                if (_alreadyFound != null)
+                {
+                    if (foundMembers.Member == _alreadyFound)
+                    {
+                        _alreadyFound = null;
+                    }
+                }
+                else
+                {
+                    return foundMembers.Member;
+                }
             }
             // did not find key at this level, move on to next level.
-            foreach (Members keyValueSet in value.Properties)
+            foreach (Members members in value.Properties)
             {
-                if (keyValueSet.Key.Equals(key))
+                Value jsonValue = Search(members.Member, key);
+                if (_alreadyFound != null)
                 {
-                    return keyValueSet.Member;
+                    if (jsonValue == _alreadyFound)
+                    {
+                        _alreadyFound = null;
+                    }
                 }
-                Value jsonValue = Search(keyValueSet.Member, key);
-                if (jsonValue != null)
+                else
                 {
-                    return jsonValue;
+                    if (jsonValue != null)
+                    {
+                        return jsonValue;
+                    }
                 }
             }
             return null;

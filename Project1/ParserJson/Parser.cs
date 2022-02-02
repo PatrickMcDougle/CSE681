@@ -60,7 +60,7 @@ namespace CSE681.JSON.Parse
                 Value jsonValue = ParseValue();
 
                 array.Add(jsonValue);
-                array.IsValid = jsonValue.IsValid; // TODO: Might be an issue here with the valid logic for larger sets.
+                array.IsValid = jsonValue == null || jsonValue.IsValid; // TODO: Might be an issue here with the valid logic for larger sets.
 
                 Trim();
                 if (fullJsonString[stringPointer] != ',')

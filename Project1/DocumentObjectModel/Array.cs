@@ -16,7 +16,7 @@ namespace CSE681.JSON.DOMs
         public void Add(Value value)
         {
             // check that value types are the same.
-            if (Items.Count > 0 && Items[0].GetType() != value.GetType())
+            if (value != null && Items.Count > 0 && Items[0].GetType() != value.GetType())
             {
                 Console.WriteLine($"Types do not match Expected [{Items[0].GetType()}] got [{value.GetType()}]");
             }
