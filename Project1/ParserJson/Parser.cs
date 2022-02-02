@@ -1,4 +1,9 @@
-﻿using CSE681.JSON.DOMs;
+﻿// ---------- ---------- ---------- ---------- ---------- ----------
+// By: Patrick McDougle
+// Class: CSE 681
+// Date: Spring of 2022
+// ---------- ---------- ---------- ---------- ---------- ----------
+using CSE681.JSON.DOMs;
 using System;
 using Array = CSE681.JSON.DOMs.Array;
 using Boolean = CSE681.JSON.DOMs.Boolean;
@@ -25,7 +30,7 @@ namespace CSE681.JSON.Parse
                 char charFirst = fullJsonString[stringPointer];
                 char charLast = fullJsonString[fullJsonString.Length - 1];
 
-                // JSON string needs to be an object or an array.  Nothing else
+                // JSON string needs to be an object or an array. Nothing else
                 if (charFirst == '{' && charLast == '}')
                 {
                     stringPointer++;
@@ -39,8 +44,8 @@ namespace CSE681.JSON.Parse
                 }
             }
 
-            // the file did not start with an object or an array.
-            // That means it was not valid, so just return a blank object.
+            // the file did not start with an object or an array. That means it was not valid, so
+            // just return a blank object.
             return new Object();
         }
 
@@ -104,85 +109,6 @@ namespace CSE681.JSON.Parse
             }
 
             return new Boolean();
-        }
-
-        /// <summary>
-        /// Parses the string that was sent in looking for double quotes at both ends.
-        /// </summary>
-        /// <param name="s">full string that starts with ".</param>
-        /// <returns>returns the string that is between two " but ignoring escaped double quotes (\")</returns>
-        private string ParseString()
-        {
-            if (fullJsonString[stringPointer] != '"')
-            {
-                // throw exception?!
-            }
-
-            int begining = ++stringPointer;
-
-            // find matching " pair.
-            while (fullJsonString.Length > stringPointer)
-            {
-                if (fullJsonString[stringPointer] == '"' && fullJsonString[stringPointer - 1] != '\\')
-                {
-                    // found end of string section.
-                    break;
-                }
-                stringPointer++; // keep advancing utnil we find a "
-            }
-
-            // i should be either at the end of the string section or end of the string length.
-            if (fullJsonString.Length > stringPointer && fullJsonString[stringPointer] == '"')
-            {
-                // just return the string without the two "s.
-                return fullJsonString.Substring(begining, stringPointer++ - begining).Trim();
-            }
-
-            return "";
-        }
-
-        private Value ParseValue()
-        {
-            Trim();
-
-            // string
-            if (fullJsonString[stringPointer] == '"')
-            {
-                string value = ParseString();
-
-                return new String(value);
-            }
-            // object
-            else if (fullJsonString[stringPointer] == '{')
-            {
-                stringPointer++;
-                return ParseObject();
-            }
-            // array
-            else if (fullJsonString[stringPointer] == '[')
-            {
-                stringPointer++;
-                return ParseArray();
-            }
-            // number
-            else if (fullJsonString[stringPointer] >= '0' && fullJsonString[stringPointer] <= '9')
-            {
-                // we have a number!
-                return ParseNumber();
-            }
-            // boolean
-            else if (Char.ToLower(fullJsonString[stringPointer]) == 't' || Char.ToLower(fullJsonString[stringPointer]) == 'f')
-            {
-                // we have a number!
-                return ParseBoolean();
-            }
-            // null
-            else if (Char.ToLower(fullJsonString[stringPointer]) == 'n')
-            {
-                return ParseNull();
-            }
-
-            return null;
         }
 
         private Value ParseNull()
@@ -304,9 +230,86 @@ namespace CSE681.JSON.Parse
             return obj;
         }
 
-        /// <summary>
-        /// Method to handle trimming any white space.
-        /// </summary>
+        /// <summary>Parses the string that was sent in looking for double quotes at both ends.</summary>
+        /// <param name="s">full string that starts with ".</param>
+        /// <returns>
+        /// returns the string that is between two " but ignoring escaped double quotes (\")
+        /// </returns>
+        private string ParseString()
+        {
+            if (fullJsonString[stringPointer] != '"')
+            {
+                // throw exception?!
+            }
+
+            int begining = ++stringPointer;
+
+            // find matching " pair.
+            while (fullJsonString.Length > stringPointer)
+            {
+                if (fullJsonString[stringPointer] == '"' && fullJsonString[stringPointer - 1] != '\\')
+                {
+                    // found end of string section.
+                    break;
+                }
+                stringPointer++; // keep advancing utnil we find a "
+            }
+
+            // i should be either at the end of the string section or end of the string length.
+            if (fullJsonString.Length > stringPointer && fullJsonString[stringPointer] == '"')
+            {
+                // just return the string without the two "s.
+                return fullJsonString.Substring(begining, stringPointer++ - begining).Trim();
+            }
+
+            return "";
+        }
+
+        private Value ParseValue()
+        {
+            Trim();
+
+            // string
+            if (fullJsonString[stringPointer] == '"')
+            {
+                string value = ParseString();
+
+                return new String(value);
+            }
+            // object
+            else if (fullJsonString[stringPointer] == '{')
+            {
+                stringPointer++;
+                return ParseObject();
+            }
+            // array
+            else if (fullJsonString[stringPointer] == '[')
+            {
+                stringPointer++;
+                return ParseArray();
+            }
+            // number
+            else if (fullJsonString[stringPointer] >= '0' && fullJsonString[stringPointer] <= '9')
+            {
+                // we have a number!
+                return ParseNumber();
+            }
+            // boolean
+            else if (Char.ToLower(fullJsonString[stringPointer]) == 't' || Char.ToLower(fullJsonString[stringPointer]) == 'f')
+            {
+                // we have a number!
+                return ParseBoolean();
+            }
+            // null
+            else if (Char.ToLower(fullJsonString[stringPointer]) == 'n')
+            {
+                return ParseNull();
+            }
+
+            return null;
+        }
+
+        /// <summary>Method to handle trimming any white space.</summary>
         private void Trim()
         {
             while (fullJsonString.Length > stringPointer && char.IsWhiteSpace(fullJsonString[stringPointer]))

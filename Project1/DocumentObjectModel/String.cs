@@ -1,4 +1,9 @@
-﻿using System;
+﻿// ---------- ---------- ---------- ---------- ---------- ----------
+// By: Patrick McDougle
+// Class: CSE 681
+// Date: Spring of 2022
+// ---------- ---------- ---------- ---------- ---------- ----------
+using System;
 
 namespace CSE681.JSON.DOMs
 {

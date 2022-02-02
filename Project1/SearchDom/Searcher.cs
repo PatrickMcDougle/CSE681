@@ -1,4 +1,9 @@
-﻿using CSE681.JSON.DOMs;
+﻿// ---------- ---------- ---------- ---------- ---------- ----------
+// By: Patrick McDougle
+// Class: CSE 681
+// Date: Spring of 2022
+// ---------- ---------- ---------- ---------- ---------- ----------
+using CSE681.JSON.DOMs;
 using System.Linq;
 
 namespace CSE681.JSON.Search

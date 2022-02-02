@@ -1,4 +1,9 @@
-﻿using CSE681.JSON.DOMs;
+﻿// ---------- ---------- ---------- ---------- ---------- ----------
+// By: Patrick McDougle
+// Class: CSE 681
+// Date: Spring of 2022
+// ---------- ---------- ---------- ---------- ---------- ----------
+using CSE681.JSON.DOMs;
 using System;
 using System.Text;
 using Array = CSE681.JSON.DOMs.Array;
@@ -68,32 +73,6 @@ namespace CSE681.JSON.PrettyPrint
             return new string(' ', _indent * _indentLevel);
         }
 
-        private string PrintValue(Value value)
-        {
-            if (value == null) return "null";
-            if (value is Boolean b)
-            {
-                return PrintBoolean(b);
-            }
-            if (value is Number n)
-            {
-                return PrintNumber(n);
-            }
-            if (value is String s)
-            {
-                return PrintString(s);
-            }
-            if (value is Array a)
-            {
-                return PrintArray(a);
-            }
-            if (value is Object o)
-            {
-                return PrintObject(o);
-            }
-            throw new NotImplementedException();
-        }
-
         private string PrintMembers(Members value)
         {
             return $"\"{value.Key}\": {PrintValue(value.Member)}";
@@ -139,6 +118,32 @@ namespace CSE681.JSON.PrettyPrint
         private string PrintString(String value)
         {
             return $"\"{value.Value}\"";
+        }
+
+        private string PrintValue(Value value)
+        {
+            if (value == null) return "null";
+            if (value is Boolean b)
+            {
+                return PrintBoolean(b);
+            }
+            if (value is Number n)
+            {
+                return PrintNumber(n);
+            }
+            if (value is String s)
+            {
+                return PrintString(s);
+            }
+            if (value is Array a)
+            {
+                return PrintArray(a);
+            }
+            if (value is Object o)
+            {
+                return PrintObject(o);
+            }
+            throw new NotImplementedException();
         }
     }
 }
