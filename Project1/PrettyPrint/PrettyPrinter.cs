@@ -13,6 +13,9 @@ using String = CSE681.JSON.DOMs.String;
 
 namespace CSE681.JSON.PrettyPrint
 {
+    /// <summary>
+    /// This class will take a CSE681 JSON DOMs objects and print out the contents in a JSON format.
+    /// </summary>
     public class PrettyPrinter
     {
         private readonly int _indent = 4;
@@ -23,12 +26,15 @@ namespace CSE681.JSON.PrettyPrint
         {
         }
 
-        public string PrettyPrintDOM(Value value)
+        /// <summary>This method is the method that takes in one of the CSE681 JSON DOMs</summary>
+        /// <param name="obj">The object should be one of the DOMs classes.</param>
+        /// <returns>A string that represents the DOMs classes structure in JSON format.</returns>
+        public string PrettyPrintDOM(object obj)
         {
-            return PrintValue(value);
+            return PrintObject(obj);
         }
 
-        private string PrintArray(Array value)
+        private string Print(Array value)
         {
             bool firstTimeSkip = true;
             StringBuilder sb = new StringBuilder();
@@ -38,7 +44,7 @@ namespace CSE681.JSON.PrettyPrint
             }
             sb.Append($"{PrintIndent()}[");
             _indentLevel++;
-            foreach (Value jsonValue in value.Items)
+            foreach (object obj in value.TheValue)
             {
                 if (firstTimeSkip)
                 {
@@ -48,13 +54,13 @@ namespace CSE681.JSON.PrettyPrint
                 {
                     sb.Append($",");
                 }
-                if (jsonValue is Object)
+                if (obj is Object Obj)
                 {
-                    sb.Append($"{PrintIndent()}{PrintValue(jsonValue)}");
+                    sb.Append($"{PrintIndent()}{Print(Obj)}");
                 }
                 else
                 {
-                    sb.Append($"\n{PrintIndent()}{PrintValue(jsonValue)}");
+                    sb.Append($"\n{PrintIndent()}{PrintObject(obj)}");
                 }
             }
             _indentLevel--;
@@ -63,31 +69,27 @@ namespace CSE681.JSON.PrettyPrint
             return sb.ToString();
         }
 
-        private string PrintBoolean(Boolean value)
+        private string Print(Boolean value)
         {
-            return value.Value ? "true" : "false";
+            return value.TheValue ? "true" : "false";
         }
 
-        private string PrintIndent()
+        private string Print(Members value)
         {
-            return new string(' ', _indent * _indentLevel);
+            if (value == null) { return "null"; }
+            return $"\"{value.Key}\": {PrintObject(value.Member)}";
         }
 
-        private string PrintMembers(Members value)
-        {
-            return $"\"{value.Key}\": {PrintValue(value.Member)}";
-        }
-
-        private string PrintNumber(Number value)
+        private string Print(Number value)
         {
             if (value.IsWholeNumber)
             {
-                return Convert.ToInt32(value.Value).ToString();
+                return Convert.ToInt32(value.TheValue).ToString();
             }
-            return value.Value.ToString();
+            return $"{value.TheValue}";
         }
 
-        private string PrintObject(Object value)
+        private string Print(Object value)
         {
             bool firstTimeSkip = true;
             StringBuilder sb = new StringBuilder();
@@ -97,7 +99,7 @@ namespace CSE681.JSON.PrettyPrint
             }
             sb.Append($"{PrintIndent()}{{");
             _indentLevel++;
-            foreach (Members keyValueSet in value.Properties)
+            foreach (Members members in value.TheValue)
             {
                 if (firstTimeSkip)
                 {
@@ -107,7 +109,7 @@ namespace CSE681.JSON.PrettyPrint
                 {
                     sb.Append($",");
                 }
-                sb.Append($"\n{PrintIndent()}{PrintMembers(keyValueSet)}");
+                sb.Append($"\n{PrintIndent()}{Print(members)}");
             }
             _indentLevel--;
             sb.Append($"\n{PrintIndent()}}}");
@@ -115,33 +117,38 @@ namespace CSE681.JSON.PrettyPrint
             return sb.ToString();
         }
 
-        private string PrintString(String value)
+        private string Print(String value)
         {
-            return $"\"{value.Value}\"";
+            return $"\"{value.TheValue}\"";
         }
 
-        private string PrintValue(Value value)
+        private string PrintIndent()
         {
-            if (value == null) return "null";
-            if (value is Boolean b)
+            return new string(' ', _indent * _indentLevel);
+        }
+
+        private string PrintObject(object obj)
+        {
+            if (obj == null) return "null";
+            if (obj is Boolean b)
             {
-                return PrintBoolean(b);
+                return Print(b);
             }
-            if (value is Number n)
+            if (obj is Number n)
             {
-                return PrintNumber(n);
+                return Print(n);
             }
-            if (value is String s)
+            if (obj is String s)
             {
-                return PrintString(s);
+                return Print(s);
             }
-            if (value is Array a)
+            if (obj is Array a)
             {
-                return PrintArray(a);
+                return Print(a);
             }
-            if (value is Object o)
+            if (obj is Object o)
             {
-                return PrintObject(o);
+                return Print(o);
             }
             throw new NotImplementedException();
         }

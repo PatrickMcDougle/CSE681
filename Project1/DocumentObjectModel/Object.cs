@@ -8,20 +8,29 @@ using System.Collections.Generic;
 
 namespace CSE681.JSON.DOMs
 {
-    public sealed class Object : Value, IEquatable<Object>
+    /// <summary>
+    /// This JSON DOM Object will store an Object value for JSON document elements. All elements in
+    /// an Object is a Members
+    /// </summary>
+    public sealed class Object : Value<ICollection<Members>>, IEquatable<ICollection<Members>>
     {
-        public IList<Members> Properties { get; } = new List<Members>();
-
-        public void Add(Members value)
+        public Object()
         {
-            Properties.Add(value);
+            TheValue = new List<Members>();
         }
 
-        public bool Equals(Object other)
+        /// <summary>Add a new Members to this object. Members have a key/id and a Value set.</summary>
+        /// <param name="value">The Members value that will be added to this objects list.</param>
+        public void Add(Members value)
         {
-            if (other == null) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Properties.Equals(other.Properties);
+            TheValue.Add(value);
+        }
+
+        public bool Equals(ICollection<Members> collection)
+        {
+            if (collection == null) return false;
+            if (ReferenceEquals(this, collection)) return true;
+            return TheValue.Equals(collection);
         }
     }
 }

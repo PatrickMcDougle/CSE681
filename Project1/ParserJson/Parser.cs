@@ -12,18 +12,80 @@ using String = CSE681.JSON.DOMs.String;
 
 namespace CSE681.JSON.Parse
 {
+    /// <summary>This class will Parse a strin/text/file into a set of CSE681 JSON DOMs objects.</summary>
     public class Parser
     {
         private readonly string fullJsonString;
 
         private int stringPointer = 0;
 
+        /// <summary>
+        /// This constructor will set everything up that is needed to parse the string that has a
+        /// valid JSON syntax.
+        /// </summary>
+        /// <param name="jsonString">The string that contains the JSON syntax to be parsed.</param>
         public Parser(string jsonString)
         {
             fullJsonString = jsonString.Trim(); // trim off any white space characters.
         }
 
-        public Value GetJsonValue()
+        /// <summary>
+        /// This method will parse the JSON string and return a reference to the base membor object
+        /// of the JSON tree.
+        /// </summary>
+        /// <returns>
+        /// A reference to the first/base Members object that was in the JSON string. Or null if not valid.
+        /// </returns>
+        public Members GetJsonMembers()
+        {
+            if (string.IsNullOrWhiteSpace(fullJsonString))
+            {
+                // string is empty.
+                return null;
+            }
+
+            Trim();
+
+            if (fullJsonString.Length <= stringPointer || fullJsonString[stringPointer] != '"')
+            {
+                // we did not find a " so return null or we are at the end of our string.
+                return null;
+            }
+            // key first
+            string key = ParseString();
+
+            Trim();
+
+            // colon (:) should be next character.
+            if (fullJsonString.Length <= stringPointer || fullJsonString[stringPointer] != ':')
+            {
+                // we did not find a colon so return null or we are at the end of out string.
+                return null;
+            }
+
+            stringPointer++; // move pointer past colon (:)
+
+            object jsonValue = ParseValue();
+
+            Members members = new Members
+            {
+                Key = key,
+                Member = jsonValue,
+                IsValid = key.Length > 0
+            };
+
+            return members;
+        }
+
+        /// <summary>
+        /// This method is the main method to parse all JSON strings. This method will parse the
+        /// whole JSON tree structure into CSE681 JSON DOMs objects.
+        /// </summary>
+        /// <returns>
+        /// The first/base/parent JSON Values object in the JSON tree string. This will either be an
+        /// Object or an Array. Or will return a blank/empty Object.
+        /// </returns>
+        public object GetJsonValue()
         {
             if (!string.IsNullOrWhiteSpace(fullJsonString))
             {
@@ -49,7 +111,7 @@ namespace CSE681.JSON.Parse
             return new Object();
         }
 
-        private Value ParseArray()
+        private object ParseArray()
         {
             Array array = new Array();
 
@@ -57,12 +119,13 @@ namespace CSE681.JSON.Parse
 
             while (fullJsonString.Length > stringPointer)
             {
-                Value jsonValue = ParseValue();
+                object jsonValue = ParseValue();
 
                 array.Add(jsonValue);
-                array.IsValid = jsonValue == null || jsonValue.IsValid; // TODO: Might be an issue here with the valid logic for larger sets.
+                array.IsValid = jsonValue != null;
 
                 Trim();
+
                 if (fullJsonString[stringPointer] != ',')
                 {
                     // did not find comma (,) so this must be end of the array set.
@@ -87,9 +150,9 @@ namespace CSE681.JSON.Parse
             return array;
         }
 
-        private Value ParseBoolean()
+        private Boolean ParseBoolean()
         {
-            if (Char.ToLower(fullJsonString[stringPointer]) == 't')
+            if (char.ToLower(fullJsonString[stringPointer]) == 't')
             {
                 string substring = fullJsonString.Substring(stringPointer, 4);
                 if (substring.Equals("true", StringComparison.OrdinalIgnoreCase))
@@ -98,7 +161,7 @@ namespace CSE681.JSON.Parse
                     return new Boolean(true);
                 }
             }
-            else if (Char.ToLower(fullJsonString[stringPointer]) == 'f')
+            else if (char.ToLower(fullJsonString[stringPointer]) == 'f')
             {
                 string substring = fullJsonString.Substring(stringPointer, 5);
                 if (substring.Equals("false", StringComparison.OrdinalIgnoreCase))
@@ -111,9 +174,9 @@ namespace CSE681.JSON.Parse
             return new Boolean();
         }
 
-        private Value ParseNull()
+        private object ParseNull()
         {
-            if (Char.ToLower(fullJsonString[stringPointer]) == 'n')
+            if (char.ToLower(fullJsonString[stringPointer]) == 'n')
             {
                 string substring = fullJsonString.Substring(stringPointer, 4);
                 if (substring.Equals("null", StringComparison.OrdinalIgnoreCase))
@@ -125,7 +188,7 @@ namespace CSE681.JSON.Parse
             return null;
         }
 
-        private Value ParseNumber()
+        private Number ParseNumber()
         {
             int begining = stringPointer;
             while (fullJsonString.Length > stringPointer
@@ -139,14 +202,14 @@ namespace CSE681.JSON.Parse
 
             if (substring.Contains("."))
             {
-                if (Double.TryParse(substring, out double value))
+                if (double.TryParse(substring, out double value))
                 {
                     return new Number(value);
                 }
             }
             else
             {
-                if (Int32.TryParse(substring, out int value))
+                if (int.TryParse(substring, out int value))
                 {
                     return new Number(value);
                 }
@@ -155,7 +218,7 @@ namespace CSE681.JSON.Parse
             return new Number();
         }
 
-        private Value ParseObject()
+        private Object ParseObject()
         {
             Object obj = new Object();
 
@@ -193,19 +256,20 @@ namespace CSE681.JSON.Parse
 
                 stringPointer++; // move pointer past colon (:)
 
-                Value jsonValue = ParseValue();
+                object jsonValue = ParseValue();
 
-                Members keyValueSet = new Members
+                Members members = new Members
                 {
                     Key = key,
                     Member = jsonValue,
-                    IsValid = jsonValue.IsValid && key.Length > 0
+                    IsValid = key.Length > 0
                 };
 
-                obj.Add(keyValueSet);
-                obj.IsValid = keyValueSet.IsValid; // TODO: Might be an issue here with the valid logic for larger sets.
+                obj.Add(members);
+                obj.IsValid = members.IsValid; // TODO: Might be an issue here with the valid logic for larger sets.
 
                 Trim();
+
                 if (fullJsonString[stringPointer] != ',')
                 {
                     // did not find comma (,) so this must be end of the object set.
@@ -265,16 +329,14 @@ namespace CSE681.JSON.Parse
             return "";
         }
 
-        private Value ParseValue()
+        private object ParseValue()
         {
             Trim();
 
             // string
             if (fullJsonString[stringPointer] == '"')
             {
-                string value = ParseString();
-
-                return new String(value);
+                return new String(ParseString());
             }
             // object
             else if (fullJsonString[stringPointer] == '{')
@@ -295,13 +357,13 @@ namespace CSE681.JSON.Parse
                 return ParseNumber();
             }
             // boolean
-            else if (Char.ToLower(fullJsonString[stringPointer]) == 't' || Char.ToLower(fullJsonString[stringPointer]) == 'f')
+            else if (char.ToLower(fullJsonString[stringPointer]) == 't' || char.ToLower(fullJsonString[stringPointer]) == 'f')
             {
                 // we have a number!
                 return ParseBoolean();
             }
             // null
-            else if (Char.ToLower(fullJsonString[stringPointer]) == 'n')
+            else if (char.ToLower(fullJsonString[stringPointer]) == 'n')
             {
                 return ParseNull();
             }

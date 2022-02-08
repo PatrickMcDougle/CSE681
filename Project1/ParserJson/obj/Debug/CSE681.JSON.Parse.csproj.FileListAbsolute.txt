@@ -7,12 +7,3 @@ D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.csproj.CoreComp
 D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.csproj.CopyComplete
 D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.dll
 D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.pdb
-D:\GitHub\CSE681\Project1\ParserJson\bin\Debug\CSE681.JSON.Parse.dll
-D:\GitHub\CSE681\Project1\ParserJson\bin\Debug\CSE681.JSON.Parse.pdb
-D:\GitHub\CSE681\Project1\ParserJson\bin\Debug\CSE681.JSON.DOMs.dll
-D:\GitHub\CSE681\Project1\ParserJson\bin\Debug\CSE681.JSON.DOMs.pdb
-D:\GitHub\CSE681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.csproj.AssemblyReference.cache
-D:\GitHub\CSE681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.csproj.CoreCompileInputs.cache
-D:\GitHub\CSE681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.csproj.CopyComplete
-D:\GitHub\CSE681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.dll
-D:\GitHub\CSE681\Project1\ParserJson\obj\Debug\CSE681.JSON.Parse.pdb

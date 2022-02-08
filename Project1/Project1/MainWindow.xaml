@@ -62,6 +62,7 @@
             <RowDefinition Height="5*" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="5*" />
+            <RowDefinition Height="5*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
@@ -70,17 +71,19 @@
         <Button Content="Load Text"  Click="Button_Click_Load_Text" Grid.Row="9" Grid.Column="1" />
         <Button Content="Parse Text"  Click="Button_Click_Parse_Text" Grid.Row="10" Grid.Column="1" />
         <Button Content="Print DOM"  Click="Button_Click_Print_DOM" Grid.Row="11" Grid.Column="1" />
+        <Button Content="Save Text"  Click="Button_Click_Save_Text" Grid.Row="12" Grid.Column="1" />
 
         <Label Grid.Row="1" Grid.Column="2" Content="Find Key" />
         <TextBox x:Name="TheSearch" Grid.Row="2" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-        <TextBox x:Name="TheResults" Grid.Row="4" Grid.Column="2" Grid.RowSpan="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <TextBox x:Name="TheResults" Grid.Row="5" Grid.Column="2" Grid.RowSpan="7" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
 
-        <Button Content="Search For Key"  Click="Button_Click_Search_Json" Grid.Row="3" Grid.Column="2" />
+        <Button Content="Search For Key"  Click="Button_Click_Search_Json" Grid.Row="3" Grid.Column="2" Grid.RowSpan="2" />
 
-        <Label Grid.Row="1" Grid.Column="3" Content="New Key:" />
-        <Label Grid.Row="3" Grid.Column="3" Content="New Value:" />
-        <TextBox x:Name="TheNewKey" Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-        <TextBox x:Name="TheNewValue" Grid.Row="4" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-        <Button Content="Add" Click="Button_Click_Add_Json" Grid.Row="5" Grid.Column="3" />
+        <Label Grid.Row="1" Grid.Column="3" Content="New JSON:" />
+        <TextBox x:Name="TheNewJson" Grid.Row="2" Grid.Column="3" Grid.RowSpan="7" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <Button Content="Insert" Click="Button_Click_Insert_Json" Grid.Row="9" Grid.Column="3" />
+
+        <TextBox x:Name="TheDemoText" Grid.Row="12" Grid.Column="3" Text="^^^^ Demo Start ^^^^" HorizontalContentAlignment="Center" />
+        <Button Content="DEMO" Click="Button_Click_DEMO" Grid.Row="11" Grid.Column="3" />
     </Grid>
 </Window>

@@ -7,12 +7,3 @@ D:\GitHub\CIS681\Project1\PrettyPrint\bin\Debug\CSE681.JSON.DOMs.pdb
 D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.csproj.CopyComplete
 D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.dll
 D:\GitHub\CIS681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.pdb
-D:\GitHub\CSE681\Project1\PrettyPrint\bin\Debug\CSE681.JSON.PrettyPrint.dll
-D:\GitHub\CSE681\Project1\PrettyPrint\bin\Debug\CSE681.JSON.PrettyPrint.pdb
-D:\GitHub\CSE681\Project1\PrettyPrint\bin\Debug\CSE681.JSON.DOMs.dll
-D:\GitHub\CSE681\Project1\PrettyPrint\bin\Debug\CSE681.JSON.DOMs.pdb
-D:\GitHub\CSE681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.csproj.AssemblyReference.cache
-D:\GitHub\CSE681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.csproj.CoreCompileInputs.cache
-D:\GitHub\CSE681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.csproj.CopyComplete
-D:\GitHub\CSE681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.dll
-D:\GitHub\CSE681\Project1\PrettyPrint\obj\Debug\CSE681.JSON.PrettyPrint.pdb

@@ -7,23 +7,25 @@ using System;
 
 namespace CSE681.JSON.DOMs
 {
-    public sealed class String : Value, IEquatable<String>
+    /// <summary>This JSON DOM String will store a string value for JSON document elements.</summary>
+    public sealed class String : Value<string>, IEquatable<String>
     {
         public String()
-        { }
+        {
+            IsValid = false;
+        }
 
         public String(string value)
         {
-            Value = value;
+            TheValue = value;
             IsValid = true;
         }
-
-        public string Value { get; set; }
 
         public bool Equals(String other)
         {
             if (other == null) return false;
-            return Value == other.Value;
+            if (ReferenceEquals(this, other)) return true;
+            return TheValue == other.TheValue;
         }
     }
 }
