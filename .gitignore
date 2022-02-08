@@ -223,3 +223,12 @@ project.lock.json
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
+Project1/DocumentObjectModel/obj/
+
+Project1/ParserJson/obj/
+
+Project1/PrettyPrint/obj/
+
+Project1/Project1/obj/
+
+Project1/SearchDom/obj/

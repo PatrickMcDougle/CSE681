@@ -1,9 +1,0 @@
-D:\GitHub\CIS681\Project1\ParserJson\bin\Debug\ParserJson.dll
-D:\GitHub\CIS681\Project1\ParserJson\bin\Debug\ParserJson.pdb
-D:\GitHub\CIS681\Project1\ParserJson\bin\Debug\DocumentObjectModel.dll
-D:\GitHub\CIS681\Project1\ParserJson\bin\Debug\DocumentObjectModel.pdb
-D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\ParserJson.csproj.AssemblyReference.cache
-D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\ParserJson.csproj.CoreCompileInputs.cache
-D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\ParserJson.csproj.CopyComplete
-D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\ParserJson.dll
-D:\GitHub\CIS681\Project1\ParserJson\obj\Debug\ParserJson.pdb
