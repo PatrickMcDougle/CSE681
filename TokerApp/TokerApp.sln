@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokerApp", "TokerApp\TokerApp.csproj", "{D8D01176-72E5-455D-B46B-490B2520B75F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{FD5953C3-2336-4436-AB1F-A343AAAE4C40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8D01176-72E5-455D-B46B-490B2520B75F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D01176-72E5-455D-B46B-490B2520B75F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D01176-72E5-455D-B46B-490B2520B75F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D01176-72E5-455D-B46B-490B2520B75F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5953C3-2336-4436-AB1F-A343AAAE4C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5953C3-2336-4436-AB1F-A343AAAE4C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5953C3-2336-4436-AB1F-A343AAAE4C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5953C3-2336-4436-AB1F-A343AAAE4C40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED800E02-63CE-4A1C-97B1-5F0C5F9F8550}
+	EndGlobalSection
+EndGlobal
