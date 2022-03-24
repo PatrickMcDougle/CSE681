@@ -1,0 +1,44 @@
+﻿<DockPanel x:Class="CSE681.Project4.GUI.Login.View"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:CSE681.Project4.GUI.Login"
+           d:DataContext="{d:DesignInstance Type=local:ViewModel}"
+        mc:Ignorable="d"
+           Height="400" Width="240">
+    <DockPanel.Resources>
+        <FontFamily x:Key="Archistico">../Fonts/Archistico_Simple.ttf#Archistico</FontFamily>
+        <FontFamily x:Key="ArchitectsDaughter">../Fonts/ArchitectsDaughter-Regular.ttf#Architects Daughter</FontFamily>
+        <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
+    </DockPanel.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="21*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <Label Content="Username" FontFamily="{StaticResource Flux}" FontSize="30" FontWeight="Regular" />
+            <TextBox Text="{Binding Username}" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="30" FontWeight="Regular" />
+
+            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
+            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
+            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
+
+            <Button Command="{Binding ButtonLoginCommand}"
+                    Margin="50,2,50,2" Padding="5,15,5,15"
+                    FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular"
+                    BorderThickness="0" Background="Orange">
+                Login
+            </Button>
+        </StackPanel>
+        <Label Grid.Row="2" Grid.Column="1"  Content="{Binding Id}" FontFamily="{StaticResource Flux}" FontSize="10" FontWeight="Regular" />
+    </Grid>
+</DockPanel>

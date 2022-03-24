@@ -8,12 +8,12 @@ using System.Threading;
 
 namespace CSE681.Project4.DataStructures
 {
-    public class BlockintStack<T>
+    public class BlockingStack<T>
     {
         private readonly Stack<T> _blockingStack;
         private readonly object _lock = new object();
 
-        public BlockintStack()
+        public BlockingStack()
         {
             _blockingStack = new Stack<T>();
         }

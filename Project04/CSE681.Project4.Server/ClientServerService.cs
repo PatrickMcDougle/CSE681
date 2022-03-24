@@ -28,20 +28,14 @@ namespace CSE681.Project4.Server
    */
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
-    public class ReceiverService : IServerContract
+    public class ClientServerService : IServerContract
     {
         private static BlockingLinkedList<UserInformation> _userBlockingList = new BlockingLinkedList<UserInformation>();
         private ServiceHost _serviceHost;
-
         private UserInformation currentUser;
 
-        public ReceiverService()
+        public ClientServerService()
         {
-        }
-
-        ~ReceiverService()
-        {
-            SetUserInactive(currentUser.Id.ToString());
         }
 
         public void AddUser(string uuid, string username, uint ipAddress, uint port)
@@ -66,7 +60,7 @@ namespace CSE681.Project4.Server
                 {
                     _userBlockingList.AddLast(newUser);
 
-                    Console.WriteLine($"User Added: {newUser.Name} - {newUser.Id}");
+                    Console.WriteLine($"User Added: {newUser.Name} || {newUser.Id} || {newUser.Address} ||");
                     currentUser = newUser;
                 }
             }
@@ -81,7 +75,7 @@ namespace CSE681.Project4.Server
         {
             BasicHttpBinding binding = new BasicHttpBinding();
             Uri address = new Uri(url);
-            Type serviceType = typeof(ReceiverService);
+            Type serviceType = typeof(ClientServerService);
             Type contractType = typeof(IServerContract);
 
             _serviceHost = new ServiceHost(serviceType, address);

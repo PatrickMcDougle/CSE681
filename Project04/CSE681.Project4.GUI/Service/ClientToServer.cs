@@ -7,35 +7,37 @@ using CSE681.Project4.Data;
 using CSE681.Project4.DataStructures;
 using CSE681.Project4.ServiceContracts;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 
-namespace CSE681.Project4.ClientConsole
+namespace CSE681.Project4.GUI.Service
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public class ClientService
+    public class ClientToServer
     {
         private const int MAX_COUNT = 10;
-        private readonly BlockingLinkedList<UserInformation> _userInformationList = null;
+        private readonly BlockingQueue<string> _sendingBlockingQueue = null;
+        private readonly Thread _threadSend;
         private string _lastError = "";
         private IServerContract _serverUserChannel;
 
-        public ClientService(string url)
+        public ClientToServer(string url)
         {
-            int tryCount = 0;
-            _userInformationList = new BlockingLinkedList<UserInformation>();
+            int _tryCount = 0;
+            _sendingBlockingQueue = new BlockingQueue<string>();
 
             while (true)
             {
                 try
                 {
                     CreateUserChannel(url);
-                    tryCount = 0;
+                    _tryCount = 0;
                     break;
                 }
                 catch (Exception ex)
                 {
-                    if (++tryCount < MAX_COUNT)
+                    if (++_tryCount < MAX_COUNT)
                     {
                         Thread.Sleep(100);
                     }
@@ -46,12 +48,16 @@ namespace CSE681.Project4.ClientConsole
                     }
                 }
             }
-            Thread threadSend = new Thread(ThreadProc)
+            _threadSend = new Thread(ThreadProc)
             {
                 IsBackground = true
             };
-            threadSend.Start();
+            _threadSend.Start();
         }
+
+        public delegate void GetListOfUsers(UserInformation[] allUsers);
+
+        public event GetListOfUsers OnListOfUsersUpdate;
 
         public void Close()
         {
@@ -80,20 +86,22 @@ namespace CSE681.Project4.ClientConsole
             Console.WriteLine(me);
         }
 
+        /// <summary>Background thread.</summary>
         private void ThreadProc()
         {
             string[] spliters = { "},{" };
 
             while (true)
             {
-                Thread.Sleep(1000);
-
                 string userListJson = _serverUserChannel.GetListOfUsers();
 
                 if (userListJson == null)
                 {
+                    Thread.Sleep(1000);
                     continue;
                 }
+
+                Stack<UserInformation> userInfoList = new Stack<UserInformation>();
 
                 if (userListJson[0] == '[' && userListJson[1] == '{')
                 {
@@ -104,22 +112,14 @@ namespace CSE681.Project4.ClientConsole
                     {
                         if (UserInformation.TryParse(user, out UserInformation userInformation))
                         {
-                            if (_userInformationList.Contains(userInformation))
-                            {
-                                _userInformationList.Find(userInformation).IsActive = userInformation.IsActive;
-                            }
-                            else
-                            {
-                                _userInformationList.AddLast(userInformation);
-                            }
+                            userInfoList.Push(userInformation);
                         }
                     }
                 }
 
-                foreach (UserInformation ui in _userInformationList)
-                {
-                    Console.WriteLine(ui.ToJson());
-                }
+                OnListOfUsersUpdate?.Invoke(userInfoList.ToArray());
+
+                Thread.Sleep(1000);
             }
         }
     }

@@ -7,9 +7,9 @@ using System;
 
 namespace CSE681.Project4.Server
 {
-    public class HostServer
+    public static class HostServer
     {
-        private static ReceiverService _receiverService;
+        private static ClientServerService _receiverService;
 
         public static void Main(string[] args)
         {
@@ -20,7 +20,7 @@ namespace CSE681.Project4.Server
 
             try
             {
-                _receiverService = new ReceiverService();
+                _receiverService = new ClientServerService();
                 _receiverService.CreateRecevedChannel(endpoint);
 
                 Console.WriteLine("  Started ReceiverService - Press key to exit:");

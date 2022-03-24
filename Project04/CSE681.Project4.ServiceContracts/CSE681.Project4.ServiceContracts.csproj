@@ -43,8 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBasicService.cs" />
+    <Compile Include="IPeer2PeerContract.cs" />
     <Compile Include="IServerContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSE681.Project4.Data\CSE681.Project4.Data.csproj">
+      <Project>{50C3CA65-0527-45FD-8C5C-6B90C6E0A867}</Project>
+      <Name>CSE681.Project4.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

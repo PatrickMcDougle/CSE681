@@ -4,18 +4,11 @@
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
 using CSE681.Project4.Data;
-using CSE681.Project4.ServiceContracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CSE681.Project4.ClientConsole
 {
-    public class ProgramClient
+    public static class ProgramClient
     {
         private static void Main(string[] args)
         {

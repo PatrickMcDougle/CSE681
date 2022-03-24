@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace CSE681.Project4.Data
 {
@@ -18,6 +19,8 @@ namespace CSE681.Project4.Data
         public bool IsActive { get; set; }
         public DateTime LastSeen { get; set; }
         public string Name { get; set; }
+
+        public ICommand OpenChatWindow { get; set; }
 
         public static bool TryParse(string json, out UserInformation userInformation)
         {
