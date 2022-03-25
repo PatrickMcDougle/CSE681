@@ -3,8 +3,8 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
+using CSE681.Project4.Data;
 using CSE681.Project4.GUI.P2P;
-using CSE681.Project4.ServiceContracts;
 using CSE681.Project4.Utilities;
 using System;
 using System.Collections.ObjectModel;
