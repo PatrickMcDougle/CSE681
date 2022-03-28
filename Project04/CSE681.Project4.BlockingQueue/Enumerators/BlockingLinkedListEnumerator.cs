@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace CSE681.Project4.DataStructures
 {
-    internal class BlockingLinkedListEnumerator<T> : IEnumerator<T>
+    public class BlockingLinkedListEnumerator<T> : IEnumerator<T>
     {
         private readonly T[] _theList;
         private int _position = -1;

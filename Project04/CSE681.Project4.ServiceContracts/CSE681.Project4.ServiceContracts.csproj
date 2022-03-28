@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBasicService.cs" />
+    <Compile Include="IPeer2GroupContract.cs" />
     <Compile Include="IPeer2PeerContract.cs" />
     <Compile Include="IServerContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

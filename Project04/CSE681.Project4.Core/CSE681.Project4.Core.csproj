@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA847778-9ED1-47BC-9F47-88E8BFA966CF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CSE681.Project4.ClientConsole</RootNamespace>
-    <AssemblyName>CSE681.Project4.ClientConsole</AssemblyName>
+    <ProjectGuid>{39E898C5-EC32-4866-96F7-72BA001EEE8B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CSE681.Project4.Core</RootNamespace>
+    <AssemblyName>CSE681.Project4.Core</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -44,21 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProgramClient.cs" />
+    <Compile Include="Data\ChannelInformation.cs" />
+    <Compile Include="Data\IpAddress.cs" />
+    <Compile Include="Data\MessageInfo.cs" />
+    <Compile Include="Data\UserInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ClientService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="ServiceContracts\IPeer2GroupContract.cs" />
+    <Compile Include="ServiceContracts\IPeer2PeerContract.cs" />
+    <Compile Include="ServiceContracts\IServerContract.cs" />
+    <Compile Include="Utilities\ObservableObject.cs" />
+    <Compile Include="Utilities\RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSE681.Project4.BlockingQueue\CSE681.Project4.DataStructures.csproj">
-      <Project>{DC3C93D7-1633-47E2-BCF8-5F5EFB5FA3F2}</Project>
+      <Project>{dc3c93d7-1633-47e2-bcf8-5f5efb5fa3f2}</Project>
       <Name>CSE681.Project4.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.Core\CSE681.Project4.Core.csproj">
-      <Project>{39E898C5-EC32-4866-96F7-72BA001EEE8B}</Project>
-      <Name>CSE681.Project4.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

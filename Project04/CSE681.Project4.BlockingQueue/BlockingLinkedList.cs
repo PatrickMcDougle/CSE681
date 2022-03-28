@@ -96,5 +96,13 @@ namespace CSE681.Project4.DataStructures
             }
             return size;
         }
+
+        public T[] ToArray()
+        {
+            lock (_lock)
+            {
+                return _blockingLinkedList.ToArray();
+            }
+        }
     }
 }

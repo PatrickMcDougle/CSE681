@@ -3,15 +3,16 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
-using CSE681.Project4.Utilities;
+using CSE681.Project4.Core.Data;
+using CSE681.Project4.Core.Utilities;
+using CSE681.Project4.GUI.Service.P2S;
 using System;
 
 namespace CSE681.Project4.GUI.Login
 {
     public class Model : ObservableObject
     {
-        private readonly Service.ClientToServer _clientToServer;
+        private readonly SendService _clientToServer;
         private readonly MainWindow _mainWindow;
         private readonly Random _random;
 
@@ -19,7 +20,7 @@ namespace CSE681.Project4.GUI.Login
         {
             _mainWindow = mainWindow;
             _random = _mainWindow.Random;
-            _clientToServer = _mainWindow.ClientToServer;
+            _clientToServer = _mainWindow.Peer2ServerSendService;
         }
 
         public UserInformation LoggedUserInformation { get; set; }

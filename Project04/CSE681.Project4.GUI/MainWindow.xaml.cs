@@ -3,13 +3,14 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
-using CSE681.Project4.GUI.P2P;
-using CSE681.Project4.GUI.Service;
+using CSE681.Project4.Core.Data;
+using CSE681.Project4.GUI.Service.P2P;
+using CSE681.Project4.GUI.Service.P2S;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using CSE681.Project4.GUI.Service.P2G;
 
 namespace CSE681.Project4.GUI
 {
@@ -38,12 +39,14 @@ namespace CSE681.Project4.GUI
 
         ~MainWindow()
         {
-            ClientToServer.Close();
+            Peer2ServerSendService.Close();
         }
 
-        public ClientToServer ClientToServer { get; private set; }
         public UserInformation LoggedUserInformation { get; set; }
-        public P2PListenService P2PListenService { get; set; }
+        public P2GListenService Peer2GroupListenService { get; set; }
+        public P2GSendService Peer2GroupSendService { get; private set; }
+        public P2PListenService Peer2PeerListenService { get; set; }
+        public SendService Peer2ServerSendService { get; private set; }
         public Random Random { get; private set; }
 
         public void SetupProgressCalls()
@@ -72,7 +75,8 @@ namespace CSE681.Project4.GUI
                 }
                 if (v.Item1 == Visibility.Hidden && v.Item2 == Visibility.Visible)
                 {
-                    SetupPeep2PeerService();
+                    SetupPeer2PeerService();
+                    SetupPeer2GroupService();
                     DisplayChatScreen();
                 }
             });
@@ -80,7 +84,7 @@ namespace CSE681.Project4.GUI
 
         public void SetupServices()
         {
-            ClientToServer = new ClientToServer("http://localhost:58080/HostServer");
+            Peer2ServerSendService = new SendService("http://localhost:58080/HostServer");
         }
 
         public void TransitionToChatWindow(UserInformation loggedUserInformation)
@@ -107,7 +111,8 @@ namespace CSE681.Project4.GUI
             Chat.Model model = new Chat.Model(this)
             {
                 LoggedUserInformation = LoggedUserInformation,
-                P2PListenService = P2PListenService
+                P2PListenService = Peer2PeerListenService,
+                P2GListenService = Peer2GroupListenService
             };
             Chat.ViewModel viewModel = new Chat.ViewModel(model);
             Chat.View view = new Chat.View(viewModel)
@@ -115,6 +120,8 @@ namespace CSE681.Project4.GUI
                 Height = ChatScreen.Height,
                 Width = ChatScreen.Width
             };
+
+            Peer2ServerSendService.LoggedUserInformation = LoggedUserInformation;
 
             ChatScreen.Children.Add(view);
         }
@@ -136,15 +143,31 @@ namespace CSE681.Project4.GUI
             LoginScreen.Children.Add(view);
         }
 
-        private void SetupPeep2PeerService()
+        private void SetupPeer2GroupService()
         {
-            string endPointUrl = $"http://{LoggedUserInformation.Address}/Peer2Peer";
-            //string endPointUrl = $"http://localhost:{LoggedUserInformation.Address.Port}/Peer2Peer";
+            string endPointUrl = $"http://{LoggedUserInformation.Address}/Peer2Group";
 
             try
             {
-                P2PListenService = new P2PListenService();
-                P2PListenService.CreateRecevedChannel(endPointUrl);
+                Peer2GroupListenService = new P2GListenService();
+                Peer2GroupListenService.CreateRecevedChannel(endPointUrl);
+                P2GListenService.SetUserInformationList(Peer2ServerSendService.UserInfoList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"EXCEPTION: {ex.Message}");
+            }
+        }
+
+        private void SetupPeer2PeerService()
+        {
+            string endPointUrl = $"http://{LoggedUserInformation.Address}/Peer2Peer";
+
+            try
+            {
+                Peer2PeerListenService = new P2PListenService();
+                Peer2PeerListenService.CreateRecevedChannel(endPointUrl);
+                P2PListenService.SetUserInformationList(Peer2ServerSendService.UserInfoList);
             }
             catch (Exception ex)
             {

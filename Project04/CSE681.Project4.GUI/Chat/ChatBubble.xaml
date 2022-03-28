@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="CSE681.Project4.GUI.Chat.ChatBubble"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CSE681.Project4.GUI.Chat"
+             xmlns:data="clr-namespace:CSE681.Project4.Core.Data;assembly=CSE681.Project4.Core"
+             d:DataContext="{d:DesignInstance Type=data:MessageInfo}"
+             mc:Ignorable="d" d:DesignWidth="300">
+    <UserControl.Resources>
+        <FontFamily x:Key="Archistico">../Fonts/Archistico_Simple.ttf#Archistico</FontFamily>
+        <FontFamily x:Key="ArchitectsDaughter">../Fonts/ArchitectsDaughter-Regular.ttf#Architects Daughter</FontFamily>
+        <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
+            <Setter Property="FontWeight" Value="Regular" />
+            <Setter Property="FontSize" Value="20" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="0,20,0,0" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DateStyle">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="40,0,40,0" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="MessageStyle">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Path">
+            <Setter Property="Fill" Value="LightGoldenrodYellow" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Data" Value="M 0,0 L 12,10 L 20,0 l 0,0" />
+            <Setter Property="Stroke" Value="Black" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="Margin" Value="55,-1,55,0" />
+            <Setter Property="Panel.ZIndex" Value="1" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="Fill" Value="LightGreen" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="Data" Value="M 0,0 L 8,10 L 20,0 l 0,0" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Border" x:Key="MessageBorder">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Background" Value="LightGoldenrodYellow" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="40,0,40,0" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="Background" Value="LightGreen" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Border}" x:Key="UserNameBorder">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Background" Value="LightCoral" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="0,-20,0,20" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Panel.ZIndex" Value="-1" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Border}" x:Key="UserNameMeBorder">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="0,-20,0,20" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Panel.ZIndex" Value="-1" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFromUser}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Border Padding="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{StaticResource MessageBorder}">
+                <TextBlock Text="{Binding Message}" Style="{StaticResource MessageStyle}" />
+            </Border>
+            <Border Grid.Row="0" Style="{StaticResource UserNameMeBorder}">
+                <TextBlock Text="{Binding UserFrom.Name}" HorizontalAlignment="Left" />
+                <Border.RenderTransform>
+                    <RotateTransform Angle="-10" />
+                </Border.RenderTransform>
+            </Border>
+            <Border Grid.Row="0" Style="{StaticResource UserNameBorder}">
+                <TextBlock x:Name="MyNameTag" Text="{Binding UserFrom.Name}" HorizontalAlignment="Left" />
+                <Border.RenderTransform>
+                    <RotateTransform Angle="10" CenterX="{Binding ElementName=MyNameTag, Path=ActualWidth}" CenterY="0" />
+                </Border.RenderTransform>
+            </Border>
+            <Path Grid.Row="1" />
+            <TextBlock Grid.Row="2" Text="{Binding DateTime}" Style="{StaticResource DateStyle}" />
+        </Grid>
+    </Border>
+</UserControl>

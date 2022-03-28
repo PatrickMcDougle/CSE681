@@ -56,13 +56,9 @@
       <Project>{DC3C93D7-1633-47E2-BCF8-5F5EFB5FA3F2}</Project>
       <Name>CSE681.Project4.DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.Data\CSE681.Project4.Data.csproj">
-      <Project>{50c3ca65-0527-45fd-8c5c-6b90c6e0a867}</Project>
-      <Name>CSE681.Project4.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.ServiceContracts\CSE681.Project4.ServiceContracts.csproj">
-      <Project>{9784F510-D958-4975-9ED2-8D14A292B6FE}</Project>
-      <Name>CSE681.Project4.ServiceContracts</Name>
+    <ProjectReference Include="..\CSE681.Project4.Core\CSE681.Project4.Core.csproj">
+      <Project>{39E898C5-EC32-4866-96F7-72BA001EEE8B}</Project>
+      <Name>CSE681.Project4.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

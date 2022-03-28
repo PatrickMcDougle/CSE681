@@ -3,7 +3,7 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
+using CSE681.Project4.Core.Data;
 using System;
 
 namespace CSE681.Project4.ClientConsole

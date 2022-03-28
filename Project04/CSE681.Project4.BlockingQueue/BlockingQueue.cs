@@ -35,6 +35,7 @@ namespace CSE681.Project4.DataStructures
                     Monitor.Wait(_lock);
                 }
                 T message = (T)_blockingQueue.Dequeue();
+                Monitor.Pulse(_lock);
                 return message;
             }
         }
@@ -56,6 +57,21 @@ namespace CSE681.Project4.DataStructures
                 size = _blockingQueue.Count;
             }
             return size;
+        }
+
+        public bool TryDequeue(out T value)
+        {
+            lock (_lock)
+            {
+                if (Size() == 0)
+                {
+                    value = default;
+                    return false;
+                }
+                value = (T)_blockingQueue.Dequeue();
+                Monitor.Pulse(_lock);
+                return true;
+            }
         }
     }
 }

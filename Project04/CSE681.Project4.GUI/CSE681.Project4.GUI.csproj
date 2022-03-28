@@ -56,10 +56,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Chat\ChannelListing.xaml.cs">
+      <DependentUpon>ChannelListing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chat\ChatBubble.xaml.cs">
+      <DependentUpon>ChatBubble.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chat\TabWindow.xaml.cs">
+      <DependentUpon>TabWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Chat\TabWindowInfo.cs" />
-    <Compile Include="P2P\P2PListenService.cs" />
-    <Compile Include="P2P\P2PSendService.cs" />
-    <Compile Include="Service\ClientToServer.cs" />
+    <Compile Include="Chat\UserLListing.xaml.cs">
+      <DependentUpon>UserLListing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\P2G\P2GListenService.cs" />
+    <Compile Include="Service\P2G\P2GSendService.cs" />
+    <Compile Include="Service\P2P\P2PListenService.cs" />
+    <Compile Include="Service\P2P\P2PSendService.cs" />
+    <Compile Include="Service\P2S\SendService.cs" />
+    <Page Include="Chat\ChannelListing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Chat\ChatBubble.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Chat\TabWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Chat\UserLListing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Chat\View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,18 +157,11 @@
       <Project>{DC3C93D7-1633-47E2-BCF8-5F5EFB5FA3F2}</Project>
       <Name>CSE681.Project4.DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.Data\CSE681.Project4.Data.csproj">
-      <Project>{50C3CA65-0527-45FD-8C5C-6B90C6E0A867}</Project>
-      <Name>CSE681.Project4.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.ServiceContracts\CSE681.Project4.ServiceContracts.csproj">
-      <Project>{9784F510-D958-4975-9ED2-8D14A292B6FE}</Project>
-      <Name>CSE681.Project4.ServiceContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSE681.Project4.Utilities\CSE681.Project4.Utilities.csproj">
-      <Project>{5DCBAA29-6B72-4E57-99BF-29BAE161092F}</Project>
-      <Name>CSE681.Project4.Utilities</Name>
+    <ProjectReference Include="..\CSE681.Project4.Core\CSE681.Project4.Core.csproj">
+      <Project>{39E898C5-EC32-4866-96F7-72BA001EEE8B}</Project>
+      <Name>CSE681.Project4.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

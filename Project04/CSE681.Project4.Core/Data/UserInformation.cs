@@ -3,23 +3,32 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
+using CSE681.Project4.Core.ServiceContracts;
+using CSE681.Project4.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace CSE681.Project4.Data
+namespace CSE681.Project4.Core.Data
 {
-    public sealed class UserInformation : IEquatable<UserInformation>, IEqualityComparer<UserInformation>
+    public sealed class UserInformation : ObservableObject, IEquatable<UserInformation>, IEqualityComparer<UserInformation>
     {
+        private bool _isActive;
+
+        public UserInformation()
+        {
+        }
+
         public IpAddress Address { get; set; }
         public DateTime Created { get; set; }
         public Guid Id { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get => _isActive; set => SetProperty(ref _isActive, value); }
         public DateTime LastSeen { get; set; }
         public string Name { get; set; }
 
         public ICommand OpenChatWindow { get; set; }
+        public IPeer2GroupContract Peer2GroupSendServer { get; set; }
 
         public static bool TryParse(string json, out UserInformation userInformation)
         {

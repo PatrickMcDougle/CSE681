@@ -3,12 +3,15 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
+using CSE681.Project4.Core.Data;
 using CSE681.Project4.DataStructures;
-using CSE681.Project4.ServiceContracts;
+using CSE681.Project4.Core.ServiceContracts;
 using System;
+using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CSE681.Project4.Server
 {
@@ -27,15 +30,19 @@ namespace CSE681.Project4.Server
    *              - access must be synchronized
    */
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientServerService : IServerContract
     {
         private static BlockingLinkedList<UserInformation> _userBlockingList = new BlockingLinkedList<UserInformation>();
+        private readonly CancellationTokenSource _inactiveUserCancellationSource;
+        private bool _processRunning = false;
         private ServiceHost _serviceHost;
         private UserInformation currentUser;
 
         public ClientServerService()
         {
+            _inactiveUserCancellationSource = new CancellationTokenSource();
+            CreateProcessOnce();
         }
 
         public void AddUser(string uuid, string username, uint ipAddress, uint port)
@@ -47,8 +54,8 @@ namespace CSE681.Project4.Server
                     Id = userId,
                     Name = username,
                     IsActive = true,
-                    Created = DateTime.Now,
-                    LastSeen = DateTime.Now,
+                    Created = DateTime.UtcNow,
+                    LastSeen = DateTime.UtcNow,
                     Address = new IpAddress()
                     {
                         Address = ipAddress,
@@ -60,7 +67,7 @@ namespace CSE681.Project4.Server
                 {
                     _userBlockingList.AddLast(newUser);
 
-                    Console.WriteLine($"User Added: {newUser.Name} || {newUser.Id} || {newUser.Address} ||");
+                    Console.WriteLine($"User Added   : {newUser.Name} || {newUser.Id} || {newUser.Address} ||");
                     currentUser = newUser;
                 }
             }
@@ -68,6 +75,7 @@ namespace CSE681.Project4.Server
 
         public void Close()
         {
+            _inactiveUserCancellationSource.Cancel();
             _serviceHost?.Close();
         }
 
@@ -89,60 +97,92 @@ namespace CSE681.Project4.Server
             bool isFirst = true;
 
             sb.Append("[");
-            foreach (UserInformation user in _userBlockingList)
+
+            _userBlockingList.ToList().ForEach(x =>
             {
                 if (!isFirst) { sb.Append(','); }
-                sb.Append(user.ToJson());
+                sb.Append(x.ToJson());
                 isFirst = false;
-            }
+            });
+
             sb.Append("]");
 
             return sb.ToString();
         }
 
+        public void ProcessIfUsersAreInactive(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Thread.Sleep(1000);
+
+                DateTime secondsAgo = DateTime.UtcNow.AddSeconds(-10);
+
+                _userBlockingList
+                    .Where(x => x.IsActive && x.LastSeen < secondsAgo)
+                    .ToList()
+                    .ForEach(y => SetUserInactive(y));
+            }
+        }
+
         public void RemoveUser(string uuid)
         {
-            UserInformation _foundUser = null;
-            Guid.TryParse(uuid, out Guid guid);
-            foreach (UserInformation user in _userBlockingList)
+            if (Guid.TryParse(uuid, out Guid guid))
             {
-                if (user.Id == guid)
+                UserInformation user = _userBlockingList.FirstOrDefault(x => x.Id == guid);
+
+                if (user != null)
                 {
-                    _foundUser = user;
-                    Console.WriteLine($"User Removed: {_foundUser.Name} - {_foundUser.Id}");
-                    break;
+                    Console.WriteLine($"User Removed : {user.Name} || {user.Id} || {user.Address} ||");
+                    _userBlockingList.Remove(user);
                 }
-            }
-            if (_foundUser != null)
-            {
-                _userBlockingList.Remove(_foundUser);
             }
         }
 
         public void SetUserActive(string uuid)
         {
-            Guid.TryParse(uuid, out Guid guid);
-            foreach (UserInformation user in _userBlockingList)
+            if (Guid.TryParse(uuid, out Guid guid))
             {
-                if (user.Id == guid)
+                UserInformation user = _userBlockingList.FirstOrDefault(x => x.Id == guid);
+
+                if (user != null)
                 {
-                    user.IsActive = true;
-                    break;
+                    SetUserActive(user);
                 }
             }
         }
 
         public void SetUserInactive(string uuid)
         {
-            Guid.TryParse(uuid, out Guid guid);
-            foreach (UserInformation user in _userBlockingList)
+            if (Guid.TryParse(uuid, out Guid guid))
             {
-                if (user.Id == guid)
-                {
-                    user.IsActive = false;
-                    break;
-                }
+                SetUserInactive(_userBlockingList.First(x => x.Id == guid));
             }
+        }
+
+        private void CreateProcessOnce()
+        {
+            if (_processRunning) return;
+            Task.Run(() => ProcessIfUsersAreInactive(_inactiveUserCancellationSource.Token));
+            _processRunning = true;
+        }
+
+        private void SetUserActive(UserInformation user)
+        {
+            if (!user.IsActive)
+            {
+                Console.WriteLine($"User Active  : {user.Name} || {user.Id} || {user.Address} ||");
+            }
+
+            user.IsActive = true;
+            user.LastSeen = DateTime.UtcNow;
+        }
+
+        private void SetUserInactive(UserInformation user)
+        {
+            user.IsActive = false;
+
+            Console.WriteLine($"User Inactive: {user.Name} || {user.Id} || {user.Address} ||");
         }
     }
 }

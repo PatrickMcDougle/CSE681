@@ -11,62 +11,40 @@
         <FontFamily x:Key="Archistico">../Fonts/Archistico_Simple.ttf#Archistico</FontFamily>
         <FontFamily x:Key="ArchitectsDaughter">../Fonts/ArchitectsDaughter-Regular.ttf#Architects Daughter</FontFamily>
         <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
+
+        <Style TargetType="{x:Type Border}" x:Key="ChannelAddButtonBorder">
+            <Setter Property="Background" Value="Blue" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="CornerRadius" Value="18" />
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="ChannelAddButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="LightGreen" />
+            <Setter Property="Padding" Value="5,0,5,-5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="FontWeight" Value="Regular" />
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
     </DockPanel.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="31*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Row="1" Grid.Column="2" SelectedIndex="{Binding ChatWindowIndex}" ItemsSource="{Binding ChatWindows}">
+        <TabControl Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding ChatWindowIndex}" ItemsSource="{Binding ChatWindows}" Background="Blue">
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <DockPanel>
-                        <Label DockPanel.Dock="Top" Content="{Binding Description}" />
-                        <Grid DockPanel.Dock="Bottom">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="50" />
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="TheMessage" Text="{Binding Message}" />
-                            <Button Grid.Column="1" Content="Send" Command="{Binding SendMessageCommand}" />
-                        </Grid>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Orientation="Vertical">
-                                <ItemsControl ItemsSource="{Binding Messages}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <DataTemplate.Resources>
-                                                <Style TargetType="Label">
-                                                    <Setter Property="HorizontalAlignment" Value="Right" />
-                                                    <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
-                                                    <Setter Property="FontWeight" Value="Regular" />
-                                                    <Setter Property="FontSize" Value="20" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsFromUser}" Value="True">
-                                                            <Setter Property="HorizontalAlignment" Value="Left" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </DataTemplate.Resources>
-                                            <StackPanel Orientation="Vertical">
-                                                <Label Content="{Binding Message}" />
-                                                <Label Content="{Binding DateTime}" FontSize="10" HorizontalAlignment="Right" FontFamily="{StaticResource Flux}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </DockPanel>
+                    <local:TabWindow />
                 </DataTemplate>
             </TabControl.ContentTemplate>
             <TabControl.ItemTemplate>
@@ -81,25 +59,34 @@
             </TabControl.ItemTemplate>
         </TabControl>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="Black">
             <StackPanel Orientation="Vertical">
-                <Label Content="Users" Background="DarkBlue" Foreground="LightGray" />
+                <Label Content="Users" Background="DarkBlue" Foreground="LightGray" FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular" />
                 <ItemsControl ItemsSource="{Binding Users}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Button Content="{Binding Name}" Command="{Binding OpenChatWindow}" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="20" FontWeight="Regular" />
-                                <Label Content="{Binding Address}" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="10" FontWeight="Regular" HorizontalAlignment="Right" />
-                            </StackPanel>
+                            <local:UserLListing />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Label Content="Channels" Background="DarkBlue" Foreground="LightGray" />
+                <Label Content="Channels" Background="DarkBlue" Foreground="LightGray" FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding NewChannelName}" />
+                    <Border Grid.Column="1" Style="{StaticResource ChannelAddButtonBorder}">
+                        <Button Content="+" Command="{Binding OpenChannelWindow}" Style="{StaticResource ChannelAddButton}" />
+                    </Border>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding Channels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:ChannelListing />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
     </Grid>

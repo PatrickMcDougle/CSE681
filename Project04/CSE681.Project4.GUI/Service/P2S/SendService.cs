@@ -3,26 +3,28 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
+using CSE681.Project4.Core.Data;
 using CSE681.Project4.DataStructures;
-using CSE681.Project4.ServiceContracts;
+using CSE681.Project4.Core.ServiceContracts;
 using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
+using System.Threading.Tasks;
+using CSE681.Project4.GUI.Service.P2G;
+using System.Linq;
 
-namespace CSE681.Project4.GUI.Service
+namespace CSE681.Project4.GUI.Service.P2S
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public class ClientToServer
+    public class SendService
     {
         private const int MAX_COUNT = 10;
+        private static readonly string[] SPLITERS = { "},{" };
         private readonly BlockingQueue<string> _sendingBlockingQueue = null;
-        private readonly Thread _threadSend;
         private string _lastError = "";
         private IServerContract _serverUserChannel;
 
-        public ClientToServer(string url)
+        public SendService(string url)
         {
             int _tryCount = 0;
             _sendingBlockingQueue = new BlockingQueue<string>();
@@ -48,16 +50,18 @@ namespace CSE681.Project4.GUI.Service
                     }
                 }
             }
-            _threadSend = new Thread(ThreadProc)
-            {
-                IsBackground = true
-            };
-            _threadSend.Start();
+
+            Task.Run(() => ProcessToUpdateHeartBeat());
+            Task.Run(() => ProcessToUpdateListOfUsers());
         }
 
         public delegate void GetListOfUsers(UserInformation[] allUsers);
 
-        public event GetListOfUsers OnListOfUsersUpdate;
+        public event GetListOfUsers OnListOfUsersUpdateEvent;
+
+        public UserInformation LoggedUserInformation { get; internal set; }
+
+        public BlockingLinkedList<UserInformation> UserInfoList { get; set; } = new BlockingLinkedList<UserInformation>();
 
         public void Close()
         {
@@ -86,41 +90,61 @@ namespace CSE681.Project4.GUI.Service
             Console.WriteLine(me);
         }
 
-        /// <summary>Background thread.</summary>
-        private void ThreadProc()
+        private void ProcessToUpdateHeartBeat()
         {
-            string[] spliters = { "},{" };
-
             while (true)
             {
+                Thread.Sleep(1000);
+                if (LoggedUserInformation != null)
+                {
+                    _serverUserChannel.SetUserActive(LoggedUserInformation.Id.ToString());
+                }
+            }
+        }
+
+        /// <summary>Background thread.</summary>
+        private void ProcessToUpdateListOfUsers()
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
                 string userListJson = _serverUserChannel.GetListOfUsers();
 
-                if (userListJson == null)
+                if (userListJson != null)
                 {
-                    Thread.Sleep(1000);
-                    continue;
+                    UpdateListOfUsersFromServer(userListJson);
                 }
+            }
+        }
 
-                Stack<UserInformation> userInfoList = new Stack<UserInformation>();
+        private void UpdateListOfUsersFromServer(string userListJson)
+        {
+            if (userListJson[0] == '[' && userListJson[1] == '{')
+            {
+                // strip off the [{ at the begining and }] at the end of the JSON message.
+                userListJson = userListJson.Substring(2, userListJson.Length - 4);
 
-                if (userListJson[0] == '[' && userListJson[1] == '{')
+                // split the string into each user information set.
+                string[] usersList = userListJson.Split(SPLITERS, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string user in usersList)
                 {
-                    userListJson = userListJson.Substring(2, userListJson.Length - 4);
-                    string[] usersList = userListJson.Split(spliters, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (string user in usersList)
+                    if (UserInformation.TryParse(user, out UserInformation userInformation))
                     {
-                        if (UserInformation.TryParse(user, out UserInformation userInformation))
+                        if (UserInfoList.Contains(userInformation))
                         {
-                            userInfoList.Push(userInformation);
+                            UserInformation ui = UserInfoList.First(x => x.Id == userInformation.Id);
+                            ui.IsActive = userInformation.IsActive;
+                        }
+                        else
+                        {
+                            UserInfoList.AddLast(userInformation);
                         }
                     }
                 }
-
-                OnListOfUsersUpdate?.Invoke(userInfoList.ToArray());
-
-                Thread.Sleep(1000);
             }
+
+            OnListOfUsersUpdateEvent?.Invoke(UserInfoList.ToArray());
         }
     }
 }

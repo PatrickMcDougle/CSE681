@@ -3,9 +3,9 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Data;
+using CSE681.Project4.Core.Data;
 using CSE681.Project4.DataStructures;
-using CSE681.Project4.ServiceContracts;
+using CSE681.Project4.Core.ServiceContracts;
 using System;
 using System.ServiceModel;
 using System.Threading;

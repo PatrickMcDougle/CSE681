@@ -3,7 +3,7 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.Utilities;
+using CSE681.Project4.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

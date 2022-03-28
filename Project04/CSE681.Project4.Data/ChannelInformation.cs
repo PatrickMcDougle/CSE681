@@ -10,22 +10,19 @@ using System.Windows.Input;
 
 namespace CSE681.Project4.Data
 {
-    public sealed class UserInformation : IEquatable<UserInformation>, IEqualityComparer<UserInformation>
+    public sealed class ChannelInformation : IEquatable<ChannelInformation>, IEqualityComparer<ChannelInformation>
     {
         public IpAddress Address { get; set; }
         public DateTime Created { get; set; }
         public Guid Id { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime LastSeen { get; set; }
         public string Name { get; set; }
-
         public ICommand OpenChatWindow { get; set; }
 
-        public static bool TryParse(string json, out UserInformation userInformation)
+        public static bool TryParse(string json, out ChannelInformation channelInformation)
         {
-            userInformation = null;
-            if (string.IsNullOrEmpty(json)) return false;
-            if (json.Length < 25) return false;
+            channelInformation = null;
+            if (string.IsNullOrWhiteSpace(json)) return false;
+            if (json.Length < 10) return false;
 
             string[] spliters01 = { "\",\"" };
             string[] spliters02 = { "\":\"" };
@@ -37,7 +34,6 @@ namespace CSE681.Project4.Data
             string name = string.Empty;
             Guid guid = Guid.Empty;
             IpAddress address = null;
-            bool isActive = false;
 
             foreach (string keyValue in keyValues)
             {
@@ -56,23 +52,18 @@ namespace CSE681.Project4.Data
                     case nameof(Address):
                         IpAddress.TryParse(parts[1], out address);
                         break;
-
-                    case nameof(IsActive):
-                        isActive = parts[1].ToLower() == "true";
-                        break;
                 }
             }
-            userInformation = new UserInformation()
+            channelInformation = new ChannelInformation()
             {
                 Name = name,
                 Id = guid,
-                Address = address,
-                IsActive = isActive
+                Address = address
             };
             return true;
         }
 
-        public bool Equals(UserInformation other)
+        public bool Equals(ChannelInformation other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -80,7 +71,7 @@ namespace CSE681.Project4.Data
             return false;
         }
 
-        public bool Equals(UserInformation x, UserInformation y)
+        public bool Equals(ChannelInformation x, ChannelInformation y)
         {
             if (x is null) return false;
             if (y is null) return false;
@@ -90,11 +81,11 @@ namespace CSE681.Project4.Data
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
-            if (obj is UserInformation information) return Equals(information);
+            if (obj is ChannelInformation information) return Equals(information);
             return false;
         }
 
-        public int GetHashCode(UserInformation obj)
+        public int GetHashCode(ChannelInformation obj)
         {
             return obj.GetHashCode();
         }
@@ -102,11 +93,9 @@ namespace CSE681.Project4.Data
         public override int GetHashCode()
         {
             int hashCode = 319242977;
-            hashCode = hashCode * -1521134295 + Address.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<IpAddress>.Default.GetHashCode(Address);
             hashCode = hashCode * -1521134295 + Created.GetHashCode();
             hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + IsActive.GetHashCode();
-            hashCode = hashCode * -1521134295 + LastSeen.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             return hashCode;
         }
@@ -119,7 +108,6 @@ namespace CSE681.Project4.Data
             sb.Append($"\"{nameof(Name)}\":\"{Name}\",");
             sb.Append($"\"{nameof(Id)}\":\"{Id}\",");
             sb.Append($"\"{nameof(Address)}\":\"{Address}\",");
-            sb.Append($"\"{nameof(IsActive)}\":\"{IsActive}\"");
 
             sb.Append("}");
 
@@ -134,7 +122,6 @@ namespace CSE681.Project4.Data
             sb.AppendLine($"    \"{nameof(Name)}\"     : \"{Name}\",");
             sb.AppendLine($"    \"{nameof(Id)}\"       : \"{Id}\",");
             sb.AppendLine($"    \"{nameof(Address)}\"  : \"{Address}\",");
-            sb.AppendLine($"    \"{nameof(IsActive)}\" : \"{IsActive}\"");
 
             sb.AppendLine("}");
 

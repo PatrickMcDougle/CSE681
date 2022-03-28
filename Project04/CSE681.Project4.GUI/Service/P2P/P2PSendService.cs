@@ -3,24 +3,27 @@
 // Class: CSE 681
 // Date: Spring of 2022
 // ---------- ---------- ---------- ---------- ---------- ----------
-using CSE681.Project4.ServiceContracts;
+using CSE681.Project4.Core.Data;
+using CSE681.Project4.Core.ServiceContracts;
 using System;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CSE681.Project4.GUI.P2P
+namespace CSE681.Project4.GUI.Service.P2P
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class P2PSendService
     {
         private const int MAX_COUNT = 10;
+        private readonly UserInformation _peerInfo;
         private string _lastError = "";
         private IPeer2PeerContract _peer;
 
-        public P2PSendService(string url)
+        public P2PSendService(UserInformation userInfo, string url)
         {
             _peer = CreateConnection(url);
+            _peerInfo = userInfo;
         }
 
         public void Close(IPeer2PeerContract peer2PeerContract)
@@ -31,6 +34,7 @@ namespace CSE681.Project4.GUI.P2P
         internal void SendMessage(string toUuid, string fromUuid, string message)
         {
             if (string.IsNullOrEmpty(message)) return;
+            if (!_peerInfo.IsActive) return;
 
             Task.Run(() =>
             {
