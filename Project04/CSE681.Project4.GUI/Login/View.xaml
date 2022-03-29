@@ -11,6 +11,63 @@
         <FontFamily x:Key="Archistico">../Fonts/Archistico_Simple.ttf#Archistico</FontFamily>
         <FontFamily x:Key="ArchitectsDaughter">../Fonts/ArchitectsDaughter-Regular.ttf#Architects Daughter</FontFamily>
         <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
+
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="Orange" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="0,130,0,0" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkOrange" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="ButtonLabel">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="LabelSpacer">
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="FontSize" Value="35" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,50,0,0" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Orange" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="FontSize" Value="35" />
+                    <Setter Property="Background" Value="DarkOrange" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontWeight" Value="Regular" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Background" Value="LightYellow" />
+        </Style>
     </DockPanel.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,19 +82,14 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-            <Label Content="Username" FontFamily="{StaticResource Flux}" FontSize="30" FontWeight="Regular" />
-            <TextBox Text="{Binding Username}" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="30" FontWeight="Regular" />
+            <Label Content="Username" Style="{StaticResource LabelSpacer}" />
+            <TextBox Text="{Binding Username}" />
 
-            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
-            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
-            <Label Content="" FontFamily="{StaticResource ArchitectsDaughter}" FontSize="35" FontWeight="Regular" />
-
-            <Button Command="{Binding ButtonLoginCommand}"
-                    Margin="50,2,50,2" Padding="5,15,5,15"
-                    FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular"
-                    BorderThickness="0" Background="Orange">
-                Login
-            </Button>
+            <Border>
+                <Button Command="{Binding ButtonLoginCommand}">
+                    <Label Style="{StaticResource ButtonLabel}">Login</Label>
+                </Button>
+            </Border>
         </StackPanel>
         <Label Grid.Row="2" Grid.Column="1"  Content="{Binding Id}" FontFamily="{StaticResource Flux}" FontSize="10" FontWeight="Regular" />
     </Grid>

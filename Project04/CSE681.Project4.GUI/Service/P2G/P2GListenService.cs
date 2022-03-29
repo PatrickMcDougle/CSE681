@@ -98,12 +98,20 @@ namespace CSE681.Project4.GUI.Service.P2G
             {
                 if (Guid.TryParse(userUuid, out Guid userId))
                 {
-                    UserInformation ui = _userInformationList.First(x => x.Id == userId);
+                    UserInformation ui = _userInformationList.FirstOrDefault(x => x.Id == userId);
 
-                    ChannelListings
-                        .Where(x => x.IsCreatedByHost)
-                        .ToList()
-                        .ForEach(y => ui.Peer2GroupSendServer.ChannelAnnouncement(y.Id.ToString(), y.Name, y.Id.ToString()));
+                    if (ui != null)
+                    {
+                        ChannelListings
+                            .Where(x => x.IsCreatedByHost)
+                            .ToList()
+                            .ForEach(y =>
+                            {
+                                P2GSendService p2gSendService = new P2GSendService(ui, $"http://{ui.Address}/Peer2Group");
+                                p2gSendService.SendChannelAnnouncement(y.Id.ToString(), y.Name, y.Id.ToString());
+                                //ui.Peer2GroupSendServer.ChannelAnnouncement(y.Id.ToString(), y.Name, y.Id.ToString())
+                            });
+                    }
                 }
             });
         }
@@ -142,7 +150,28 @@ namespace CSE681.Project4.GUI.Service.P2G
 
         public void ReceiveGroupMessage(string channelName, string fromUuid, string message)
         {
-            throw new NotImplementedException();
+            if (Guid.TryParse(fromUuid, out Guid userFromId))
+            {
+                UserInformation userFrom = null;
+
+                foreach (UserInformation user in _userInformationList)
+                {
+                    if (user.Id == userFromId)
+                    {
+                        userFrom = user;
+                        break;
+                    }
+                }
+
+                MessageInfo mi = new MessageInfo()
+                {
+                    Message = message,
+                    ChannelName = channelName,
+                    UserFrom = userFrom,
+                    IsFromUser = true,
+                };
+                IncomingMessages.Enqueue(mi);
+            }
         }
 
         public void SendGroupMessage(string channelName, string fromUuid, string message)
@@ -168,6 +197,14 @@ namespace CSE681.Project4.GUI.Service.P2G
                     IsFromUser = true,
                 };
                 IncomingMessages.Enqueue(mi);
+
+                BlockingLinkedList<UserInformation> chaters = ChannelListings.First(x => x.Name == channelName).Chaters;
+
+                foreach (UserInformation ui in chaters)
+                {
+                    P2GSendService p2gSendService = new P2GSendService(ui, $"http://{ui.Address}/Peer2Group");
+                    p2gSendService.SendReceiveGroupMessage(channelName, fromUuid, message);
+                }
             }
         }
     }

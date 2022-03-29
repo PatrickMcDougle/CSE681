@@ -38,7 +38,14 @@ namespace CSE681.Project4.GUI.Service.P2G
             {
                 if (!_peerInfo.IsActive) return;
 
-                _peer.GetRegisteredChannels(_peerInfo.Id.ToString());
+                try
+                {
+                    _peer.GetRegisteredChannels(_peerInfo.Id.ToString());
+                }
+                catch (EndpointNotFoundException ex)
+                {
+                    Console.WriteLine($"Endpoint Not Found: {ex}");
+                }
             });
         }
 
@@ -81,6 +88,11 @@ namespace CSE681.Project4.GUI.Service.P2G
             {
                 _peer.JoinChannel(channelName, userUuid);
             });
+        }
+
+        internal void SendReceiveGroupMessage(string channelName, string fromUuid, string message)
+        {
+            _peer.ReceiveGroupMessage(channelName, fromUuid, message);
         }
 
         private IPeer2GroupContract CreateConnection(string url)

@@ -28,7 +28,6 @@ namespace CSE681.Project4.Core.Data
         public string Name { get; set; }
 
         public ICommand OpenChatWindow { get; set; }
-        public IPeer2GroupContract Peer2GroupSendServer { get; set; }
 
         public static bool TryParse(string json, out UserInformation userInformation)
         {

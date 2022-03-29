@@ -71,7 +71,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Border" x:Key="MessageBorder">
+        <Style TargetType="{x:Type Border}" x:Key="MessageBorder">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Background" Value="LightGoldenrodYellow" />
             <Setter Property="Padding" Value="10" />

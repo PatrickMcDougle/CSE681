@@ -12,20 +12,20 @@
         <FontFamily x:Key="ArchitectsDaughter">../Fonts/ArchitectsDaughter-Regular.ttf#Architects Daughter</FontFamily>
         <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
 
-        <Style TargetType="Border" x:Key="MessageBorder">
+        <Style TargetType="{x:Type Border}" x:Key="MessageBorder">
             <Setter Property="Background" Value="LightGoldenrodYellow" />
             <Setter Property="Padding" Value="10" />
-            <Setter Property="Margin" Value="50,12,10,12" />
+            <Setter Property="Margin" Value="20,12,10,12" />
             <Setter Property="CornerRadius" Value="15" />
         </Style>
-        <Style TargetType="Border" x:Key="SendButtonBorder">
-            <Setter Property="Background" Value="LightCoral" />
+        <Style TargetType="{x:Type Border}" x:Key="SendButtonBorder">
+            <Setter Property="Background" Value="Orange" />
             <Setter Property="Padding" Value="10" />
-            <Setter Property="Margin" Value="10,12,10,12" />
+            <Setter Property="Margin" Value="10,12,20,12" />
             <Setter Property="CornerRadius" Value="15" />
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="LightCoral" />
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Orange" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontFamily" Value="{StaticResource Flux}" />
             <Setter Property="FontSize" Value="16" />
@@ -42,25 +42,34 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="FontSize" Value="21" />
-                    <Setter Property="Background" Value="LightCoral" />
+                    <Setter Property="Background" Value="Orange" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="TextBox">
+        <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="FontWeight" Value="Regular" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="2,0" />
+            <Setter Property="Background" Value="LightYellow" />
         </Style>
-        <Style TargetType="Label">
+        <Style TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="AliceBlue" />
             <Setter Property="Background" Value="DarkBlue" />
         </Style>
-        <Style TargetType="Grid">
+        <Style TargetType="{x:Type Grid}">
             <Setter Property="Background" Value="DarkBlue" />
+        </Style>
+        <Style TargetType="{x:Type StackPanel}" x:Key="TitleBar">
+            <Setter Property="Background" Value="DarkBlue" />
+            <Setter Property="Orientation" Value="Horizontal" />
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <Label DockPanel.Dock="Top" Content="{Binding Description}" />
+        <StackPanel DockPanel.Dock="Top" Style="{StaticResource TitleBar}" >
+            <Label Content="{Binding Description}" />
+        </StackPanel>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />

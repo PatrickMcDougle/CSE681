@@ -30,15 +30,15 @@ namespace CSE681.Project4.GUI.Chat
                 else
                 {
                     SendPeerMessage();
-                }
 
-                Messages.Add(new MessageInfo()
-                {
-                    DateTime = DateTime.Now,
-                    Message = Message,
-                    UserFrom = UserFrom,
-                    UserTo = UserTo,
-                });
+                    Messages.Add(new MessageInfo()
+                    {
+                        DateTime = DateTime.Now,
+                        Message = Message,
+                        UserFrom = UserFrom,
+                        UserTo = UserTo,
+                    });
+                }
                 Message = string.Empty;
             },
             p => true);

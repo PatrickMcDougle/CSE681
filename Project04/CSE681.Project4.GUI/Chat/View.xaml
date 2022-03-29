@@ -13,35 +13,94 @@
         <FontFamily x:Key="Flux">../Fonts/Flux Architect Regular.ttf#Flux Architect</FontFamily>
 
         <Style TargetType="{x:Type Border}" x:Key="ChannelAddButtonBorder">
-            <Setter Property="Background" Value="Blue" />
+            <Setter Property="Background" Value="Orange" />
             <Setter Property="Padding" Value="2" />
             <Setter Property="CornerRadius" Value="18" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkOrange" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Button}" x:Key="ChannelAddButton">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="LightGreen" />
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="Padding" Value="5,0,5,-5" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontFamily" Value="{StaticResource Flux}" />
             <Setter Property="FontWeight" Value="Regular" />
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="25" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontFamily" Value="{StaticResource ArchitectsDaughter}" />
+            <Setter Property="FontWeight" Value="Regular" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Padding" Value="10,5" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Background" Value="LightYellow" />
+        </Style>
+        <Style TargetType="{x:Type Grid}" x:Key="MainGrid">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Background" Value="DarkBlue" />
+        </Style>
+        <Style TargetType="{x:Type TabControl}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Blue" />
+        </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="10,2" />
+            <Setter Property="Background" Value="LightSteelBlue" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="LabelTopSection">
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="0,10,0,10" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="LightGray" />
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="LabelSections">
+            <Setter Property="FontFamily" Value="{StaticResource Flux}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="0,10,0,10" />
+            <Setter Property="Margin" Value="0,30,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="LightGray" />
         </Style>
     </DockPanel.Resources>
 
-    <Grid>
+    <Grid Style="{StaticResource MainGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding ChatWindowIndex}" ItemsSource="{Binding ChatWindows}" Background="Blue">
+        <TabControl Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding ChatWindowIndex}" ItemsSource="{Binding ChatWindows}">
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <local:TabWindow />
@@ -49,19 +108,16 @@
             </TabControl.ContentTemplate>
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <Border x:Name="TabTitle">
                         <Label Content="{Binding Title}" />
-                        <Grid>
-                            <Button Content="X" Command="" />
-                        </Grid>
-                    </StackPanel>
+                    </Border>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>
 
         <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="Black">
             <StackPanel Orientation="Vertical">
-                <Label Content="Users" Background="DarkBlue" Foreground="LightGray" FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular" />
+                <Label Content="Users" Style="{StaticResource LabelTopSection}" />
                 <ItemsControl ItemsSource="{Binding Users}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -69,7 +125,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Label Content="Channels" Background="DarkBlue" Foreground="LightGray" FontFamily="{StaticResource Flux}" FontSize="20" FontWeight="Regular" />
+                <Label Content="Channels" Style="{StaticResource LabelSections}" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*" />

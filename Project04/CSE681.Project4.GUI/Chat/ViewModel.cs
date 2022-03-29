@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
+using CSE681.Project4.GUI.Service.P2G;
 
 namespace CSE681.Project4.GUI.Chat
 {
@@ -104,9 +105,9 @@ namespace CSE681.Project4.GUI.Chat
                 Title = ci.Name,
                 ChannelName = ci.Name,
                 ChannelInfo = ci,
-                UserFrom = ci.HostInfo,
+                UserFrom = _model.LoggedUserInformation,
                 Description = $"{ci.HostInfo.Name} created channel {ci.Name}",
-                Peer2GroupSendService = new Service.P2G.P2GSendService(ci.HostInfo, $"http://{ci.HostInfo.Address}/Peer2Group")
+                Peer2GroupSendService = new P2GSendService(ci.HostInfo, $"http://{ci.HostInfo.Address}/Peer2Group")
             };
 
             ChatWindows.Add(newChannel);
@@ -129,15 +130,18 @@ namespace CSE681.Project4.GUI.Chat
                 OpenChatWindow = new RelayCommand(o => ButtonOpenChannelWindowClicked(userFrom, channelName), p => true)
             };
 
+            ci.Chaters.AddLast(_model.LoggedUserInformation);
+            ci.Chaters.AddLast(userFrom);
+
             TabWindowInfo newChannel = new TabWindowInfo()
             {
                 IsChannel = true,
                 Title = channelName,
                 ChannelName = channelName,
                 ChannelInfo = ci,
-                UserFrom = userFrom,
+                UserFrom = _model.LoggedUserInformation,
                 Description = $"{userFrom.Name} created channel {channelName}",
-                Peer2GroupSendService = new Service.P2G.P2GSendService(userFrom, $"http://{userFrom.Address}/Peer2Group")
+                Peer2GroupSendService = new P2GSendService(userFrom, $"http://{userFrom.Address}/Peer2Group")
             };
 
             ChatWindows.Add(newChannel);
@@ -258,10 +262,13 @@ namespace CSE681.Project4.GUI.Chat
 
                 //ChannelInformation ci = ChatWindows.First(x => x.ChannelName == messageInfo.ChannelName).ChannelInfo;
 
-                ChatWindows.First(x => x.ChannelName == messageInfo.ChannelName).ChannelInfo.Chaters.ToList().ForEach(x =>
-                {
-                    x.Peer2GroupSendServer.ReceiveGroupMessage(messageInfo.ChannelName, messageInfo.UserFrom.Id.ToString(), messageInfo.Message);
-                });
+                //ChatWindows.First(x => x.ChannelName == messageInfo.ChannelName).ChannelInfo.Chaters.ToList().ForEach(x =>
+                //{
+                //    P2GSendService p2gSendService = new P2GSendService(x, $"http://{x.Address}/Peer2Group");
+                //    p2gSendService.SendReceiveGroupMessage(messageInfo.ChannelName, messageInfo.UserFrom.Id.ToString(), messageInfo.Message);
+
+                //    //x.Peer2GroupSendServer.ReceiveGroupMessage(messageInfo.ChannelName, messageInfo.UserFrom.Id.ToString(), messageInfo.Message);
+                //});
 
                 //messageInfo.UserFrom = _model.Users.First(x => x.Id == messageInfo.UserFrom.Id);  // not needed anymore
                 //messageInfo.UserTo = _model.LoggedUserInformation; // not needed anymore.????
